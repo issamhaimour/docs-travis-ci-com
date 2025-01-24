@@ -4,27 +4,28 @@ layout: en
 
 ---
 
-The Google Chrome addon allows Travis CI builds to install Google Chrome at run time. To use the addon you need to be running builds on either the [Trusty build environment](/user/reference/trusty/) or the [OS X build environment](/user/reference/osx/).
+The Google Chrome addon allows Travis CI builds to install Google Chrome at run time. To use the addon you need to be running builds on either the [Trusty build environment](/user/reference/trusty/) or the [macOS build environment](/user/reference/osx/).
 
 ## Selecting a Chrome version
 
 You can install the `stable`  or the `beta` version of Chrome but you can't select a specific numeric version.
 
 ```yaml
-sudo: required
 addons:
   chrome: stable
 ```
 {: data-file=".travis.yml"}
 
+> Take note that the underlying Chrome version can change from one build to another when Google updates the `stable` or `beta` version.
+
 ## Headless mode
 
-You can use Google Chrome in [headless mode](/user/gui-and-headless-browsers/#Using-the-Chrome-addon-in-the-headless-mode).
+You can use Google Chrome in [headless mode](/user/gui-and-headless-browsers/#using-the-chrome-addon-in-the-headless-mode).
 
 ## Sandboxing
 
 For security reasons, Google Chrome is unable to provide sandboxing when it is running in the
-[container-based environment](https://docs.travis-ci.com/user/reference/overview/#Virtualization-environments).
+[container-based environment](/user/reference/overview/#virtualization-environments).
 
 In that case, you may see an error message like this:
 
@@ -73,9 +74,30 @@ When using [Capybara](https://github.com/teamcapybara/capybara) with Ruby, you w
 require 'capybara'
 Capybara.register_driver :chrome do |app|
 	options = Selenium::WebDriver::Chrome::Options.new(args: %w[no-sandbox headless disable-gpu])
-	
+
 	Capybara::Selenium::Driver.new(app, browser: :chrome, options: options)
 end
 
 Capybara.javascript_driver = :chrome
+```
+
+### Behat
+
+When using [Behat](https://github.com/Behat/Behat) you should pass the options to the selenium2 chrome configuration:
+
+```yml
+default:
+  extensions:
+    Behat\MinkExtension:
+      selenium2:
+        # This will probably be the same always, if you follow the guide for browsers below.
+        wd_host: http://localhost:8643/wd/hub
+        capabilities:
+          chrome:
+            switches:
+              - "--headless"
+              - "--disable-gpu"
+              - "--no-sandbox"
+      javascript_session: selenium2
+      browser_name: chrome
 ```

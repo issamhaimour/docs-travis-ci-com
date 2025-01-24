@@ -5,9 +5,9 @@ layout: en_enterprise
 
 ## System Setup
 
-**Platform Requirements**: Precise Build Containers are supported for Travis CI Enterprise version 2.0 and higher. We recommend [Trusty Build Environments](/user/enterprise/trusty-build-containers/) for Travis CI Enterprise 2.2+, as Trusty Build Environments are the default environment.
+**Platform Requirements**: Precise Build Containers are supported for Travis CI Enterprise version 2.0 and higher. We recommend [Trusty Build Environments](/user/enterprise/trusty/) for Travis CI Enterprise 2.2+, as Trusty Build Environments are the default environment.
 
-To Legacy workers as default on Travis CI Enterprise 2.2+, override the fault behavior in the Admin Dashboard at `https://your-domain.tld:8800/settings#override_default_dist_enable`
+To Legacy workers as default on Travis CI Enterprise 2.2+, override the fault behavior in the Admin Dashboard at `https://<your-travis-ci-enterprise-domain>:8800/settings#override_default_dist_enable`
 
 **Worker Requirements**:
 The Legacy worker must be running Ubuntu 14.04 LTS as an underlying operating system. We recommend using AWS's `c3.2xlarge` as the instance type. Port 22 must be open for SSH during installation and operation.

@@ -4,9 +4,11 @@ layout: en
 
 ---
 
+### What This Guide Covers
+
 <aside markdown="block" class="ataglance">
 
-|                   | Default                                       |
+| Erlang            | Default                                       |
 |:------------------|:----------------------------------------------|
 | Typical `install` | `rebar get-deps`                              |
 | Typical `script`  | `rebar compile && rebar skip_deps=true eunit` |
@@ -17,24 +19,19 @@ Minimal example:
 
 ```yaml
 language: erlang
-otp_release:
-  - 19.0
-  - 18.2.1
 ```
 {: data-file=".travis.yml"}
 
 </aside>
 
-### What This Guide Covers
-
-{{ site.data.snippets.trusty_note_no_osx }}
+{{ site.data.snippets.linux_note }}
 
 The rest of this guide covers build environment and configuration topics
 specific to Erlang projects. Please make sure to read our
-[Getting Started](/user/getting-started/) and
+[Tutorial](/user/tutorial/) and
 [general build configuration](/user/customizing-the-build/) guides first.
 
-Erlang builds are not available on the OS X environment.
+Erlang builds are not available on the macOS environment.
 
 ## Choosing OTP releases to test against
 
@@ -87,11 +84,6 @@ rebar3 get-deps
 ```
 
 to install [project dependencies](https://github.com/basho/riak/blob/master/rebar.config) as listed in the `rebar.config` file.
-
-## Build Matrix
-
-For Erlang projects, `env` and `otp_release` can be given as arrays
-to construct a build matrix.
 
 ## Environment Variable
 

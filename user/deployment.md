@@ -4,7 +4,7 @@ layout: en
 swiftypetags: 'skip_cleanup'
 ---
 
-<div id="toc"></div>
+
 
 ## Supported Providers
 
@@ -68,9 +68,12 @@ Use the following options to configure conditional deployment:
 * `repo`: in the form `owner_name/repo_name`. Deploy only when the build occurs on a particular repository. For example
 
    ```yaml
-   on:
-     repo: travis-ci/dpl
+   deploy:
+     provider: s3
+     on:
+       repo: travis-ci/dpl
    ```
+   {: data-file=".travis.yml"}
 
 * `branch`: name of the branch.
    If omitted, this defaults to the `app`-specific branch, or `master`. If the branch name is not known ahead of time, you can specify
@@ -79,7 +82,7 @@ Use the following options to configure conditional deployment:
 * `jdk`, `node`, `perl`, `php`, `python`, `ruby`, `scala`, `go`: for    language runtimes that support multiple versions,
    you can limit the deployment to happen only on the job that matches a specific version.
 
-* `condition`: deploy when *a single* bash condition evaluates to `true`. This must be a string value, and is equivalant to `if [[ <condition> ]]; then <deploy>; fi`. For example, `$CC = gcc`.
+* `condition`: deploy when *a single* bash condition evaluates to `true`. This must be a string value, and is equivalent to `if [[ <condition> ]]; then <deploy>; fi`. For example, `$CC = gcc`.
 
 * `tags` can be `true`, `false` or any other string:
 
@@ -95,13 +98,14 @@ Use the following options to configure conditional deployment:
 This example deploys to Appfog only from the `staging` branch when the test has run on Node.js version 0.11.
 
 ```yaml
+language: node_js
 deploy:
   provider: appfog
   user: ...
   api_key: ...
   on:
     branch: staging
-    node: '0.11' # this should be quoted; otherwise, 0.10 would not work
+    node_js: '0.11' # this should be quoted; otherwise, 0.10 would not work
 ```
 {: data-file=".travis.yml"}
 
@@ -114,6 +118,21 @@ deploy:
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^staging|production$
+```
+{: data-file=".travis.yml"}
+
+The next example deploys using custom scripts `deploy_production.sh` and `deploy_staging.sh` depending on the branch that triggered the job.
+
+```yaml
+deploy:
+  - provider: script
+    script: deploy_production.sh
+    on:
+      branch: production
+  - provider: script
+    script: deploy_staging.sh
+    on:
+      branch: staging
 ```
 {: data-file=".travis.yml"}
 
